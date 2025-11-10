@@ -22,7 +22,7 @@ public class ArticleController {
     }
 
     @PostMapping("/add")
-    public String add(String title, String email) {
+    public String add(@RequestParam("title") String title, @RequestParam("email") String email) {
         service.add(title, email);
         return "redirect:/";
     }
