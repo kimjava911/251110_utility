@@ -12,7 +12,8 @@
     %>
     <p>ID: <%= a.id() %></p>
     <p>제목: <%= a.title() %></p>
-    <p>작성자: <%= a.authorEmail()%></p>
+<%--    <p>작성자: <%= a.authorEmail()%></p>--%>
+    <p>작성자: <%= request.getAttribute("maskedEmail")%></p>
     <%
         } else {
     %>

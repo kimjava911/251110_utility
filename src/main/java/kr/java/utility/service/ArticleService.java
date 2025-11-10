@@ -2,8 +2,11 @@ package kr.java.utility.service;
 
 import kr.java.utility.model.entity.Article;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -17,7 +20,9 @@ public class ArticleService {
 
     public List<Article> findAll() {
 //        return store; // -> Service 바로 가져가기 때문에 편집...
-        return new ArrayList<>(store); // 새로운 객체를 만들면서 연결관계 X.
+//        return new ArrayList<>(store); // 새로운 객체를 만들면서 연결관계 X.
+        // 연결관계 없는 사본. 수정 불가능한 사본
+        return Collections.unmodifiableList(store); // java 유틸리티 클래스
     }
 
     public Article findById(long id) {
@@ -35,9 +40,14 @@ public class ArticleService {
     }
 
     public void add(String title, String email) {
+        Assert.hasText(title, "title 필수"); // throw해줌
         long size = store.size();
         store.add((new Article(size + 1, title, email)));
     }
 
-    public boolean isEmpty() { return store.isEmpty(); }
+    public boolean isEmpty() {
+        // return store.isEmpty();
+        // Spring의 유틸리티 클래스
+        return CollectionUtils.isEmpty(store);
+    }
 }
